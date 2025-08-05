@@ -1,0 +1,18 @@
+module tb_sync_counter;
+    reg clk, rst, en;
+    wire [2:0] count;
+
+    sync_counter dut(clk, rst, en, count);
+
+    always #5 clk = ~clk;
+
+    initial begin
+        $dumpfile("sync_counter.vcd");
+        $dumpvars(0, tb_sync_counter);
+        clk = 0; rst = 1; en = 0; #10;
+        rst = 0; en = 1; #50;
+        en = 0; #20;
+        rst = 1; #10;
+        $finish;
+    end
+endmodule
